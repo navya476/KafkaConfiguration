@@ -10,7 +10,12 @@ if node['platform_family'] == 'ebian'
   include_recipe 'KafkaSetup::install'
   include_recipe 'KafkaSetup::configure'
 
-end
+elsif node['platform_family'] == 'rhel'
+  ::Chef::Log.info(node['platform'])
+  ::Chef::Log.info(node['Kafka']['Brokers'])
 
-::Chef::Log.info(node['platform'])
-::Chef::Log.info(node['Kafka']['Brokers'])
+  log 'message' do
+    message "#{node['platform_family']}"
+    level :info
+  end
+end
