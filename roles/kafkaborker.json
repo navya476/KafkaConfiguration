@@ -1,0 +1,48 @@
+{
+   "name": "KafkaBroker2",
+   "description": "Conifgures Kafka Broker Node",
+   "json_class": "Chef::Role",
+   "default_attributes": {
+     
+   },
+   "override_attributes": {
+     "Kafka": {
+        "Brokers": 1,
+        "BrokerID": 1,
+        "Topics": [
+              {
+                "Name": "Role",
+                "RF": 1,
+                "Partitions": 2 
+           }
+         ]
+      },
+      "Zookeeper": {
+        "Details": [
+      {
+        "IP": "10.0.0.147",
+        "ElectionPort": 3666,
+        "NodePort": 2666,
+        "ClientPort": 2181
+      },
+      {
+        "IP": "10.0.0.76",
+        "ElectionPort": 3666,
+        "NodePort": 2666,
+        "ClientPort": 2181
+      },
+      {
+        "IP": "10.0.0.83",
+        "ElectionPort": 3666,
+        "NodePort": 2666,
+        "ClientPort": 2181
+      }
+    ]
+  }
+   },
+   "chef_type": "role",
+   "run_list": [ "recipe[KafkaSetup]"
+   ],
+   "env_run_lists": {
+   }
+}

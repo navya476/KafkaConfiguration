@@ -1,0 +1,37 @@
+{
+   "name": "Zookeeper1",
+   "description": "Conifgures Zookeeper Node",
+   "json_class": "Chef::Role",
+   "default_attributes": {
+     
+   },
+   "override_attributes": {
+     "Zookeeper": {
+        "ID": 1,
+        "Details":[{
+             "IP": "127.0.0.1",
+             "ElectionPort": 3666,
+             "NodePort": 2666,
+             "ClientPort": 2181
+           },
+           {
+             "IP": "127.0.0.1",
+             "ElectionPort": 3666,
+             "NodePort": 2666,
+             "ClientPort": 2181
+           },
+           {
+             "IP": "127.0.0.1",
+             "ElectionPort": 3666,
+             "NodePort": 2666,
+             "ClientPort": 2181
+           } 
+        ]
+      }
+   },
+   "chef_type": "role",
+   "run_list": [ "recipe[ZookeeperSetup]"
+   ],
+   "env_run_lists": {
+   }
+}
