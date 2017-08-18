@@ -1,0 +1,20 @@
+{"version":1,
+  "partitions":[
+<% totalloop = 0 %>
+<% loopcheck = 1 %>
+<% node['Kafka']['TopicAlter'].each do |topic| %>
+   <% for i in 1..topic[:Partitions] %>
+      <% totalloop += 1 %>
+   <% end %> 
+<% end %>
+<% node['Kafka']['TopicAlter'].each do |topic| %>
+  <% for i in 1..topic[:Partitions] %>
+       <% if loopcheck < totalloop %>
+         {"topic":"<%= topic[:Name] %>","partition":<%= i-1 %>,"replicas":[0<% if topic[:RF] > 1 %><% for j in 1..topic[:RF]-1 %>,<%= j %><% end %><% end %>]},
+       <% else %>
+         {"topic":"<%= topic[:Name] %>","partition":<%= i-1 %>,"replicas":[0<% if topic[:RF] > 1 %><% for j in 1..topic[:RF]-1 %>,<%= j %><% end %><% end %>]}
+       <% end %>
+       <% loopcheck += 1 %>
+   <% end %>
+<% end %>
+]}
