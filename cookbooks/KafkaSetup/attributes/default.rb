@@ -1,5 +1,6 @@
 #Dependency software to be installed in order to run Kafka
 default['Kafka']['Dependencies'] = ['default-jdk','wget']
+default['Kafka']['Dependenciesrhel'] = ['wget','java-1.8.0-openjdk-devel.x86_64']
 default['Kafka']['Folders'] = ['kafka']
 
 # Number of Kafka Brokers Required on a single node
