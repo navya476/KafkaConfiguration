@@ -24,9 +24,13 @@ node['Kafka']['Topics'].each do |topic|
   end
 end
 
+directory "/var/lib/kafka" do
+  action :create
+end
+
 # Reassigning the Topics to the new nodes created
 if !node['Kafka']['TopicAlter'].nil? && node['Kafka']['TopicAlter'].length > 0
-  template "/home/ubuntu/reassign.json" do
+  template "#{node['Kafka']['configFilesPath']}/reassign.json" do
     source "reassign.json.erb"
     notifies :run, "execute[Reassigning the topics]", :immediately
   end
@@ -44,13 +48,13 @@ if !node['Kafka']['TopicAlter'].nil? && node['Kafka']['TopicAlter'].length > 0
   end
   
   execute "Reassigning the topics" do
-    command "kafka-reassign-partitions --zookeeper #{zookeeperString} --reassignment-json-file /home/ubuntu/reassign.json --execute"
+    command "kafka-reassign-partitions --zookeeper #{zookeeperString} --reassignment-json-file #{node['Kafka']['configFilesPath']}/reassign.json --execute"
     action :nothing
     notifies :run, "execute[Verifying the Reassignment of topics]", :immediately
   end
   
   execute "Verifying the Reassignment of topics" do
-    command "kafka-reassign-partitions --zookeeper #{zookeeperString} --reassignment-json-file /home/ubuntu/reassign.json --verify"
+    command "kafka-reassign-partitions --zookeeper #{zookeeperString} --reassignment-json-file #{node['Kafka']['configFilesPath']}/reassign.json --verify"
     action :nothing
   end
 end
