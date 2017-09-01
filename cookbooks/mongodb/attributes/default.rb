@@ -1,0 +1,1 @@
+default['MongoDB']['BindIPs'] = []
